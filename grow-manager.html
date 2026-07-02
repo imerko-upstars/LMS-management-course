@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Готовність до змін — перший крок до керівництва</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;1,6..12,700&display=swap');
+
+  :root{
+    --bg:#01001F;
+    --bg-soft:#0A0930;
+    --ink:#F4F3FF;
+    --ink-dim:#9C9BC4;
+    --green:#00CE84;
+    --green-plashka:#DBFFF2;
+    --violet:#5535BE;
+    --violet-plashka:#CEFFEC;
+    --blue:#448FFF;
+    --blue-plashka:#DBFDFF;
+    --orange:#FB791B;
+    --text-on-light:#161616;
+    --line:rgba(244,243,255,0.12);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Nunito Sans", sans-serif;
+    line-height:1.55;
+  }
+
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:28px 6vw;
+    border-bottom:1px solid var(--line);
+  }
+  .logo{
+    font-weight:900; font-size:22px; letter-spacing:-0.02em; color:var(--ink);
+    display:flex; align-items:center; gap:6px; text-transform:lowercase;
+  }
+  .logo .dot{width:7px;height:7px;border-radius:50%;background:var(--green); display:inline-block; transform:translateY(-8px);}
+  .crumbs{font-size:14px; color:var(--ink-dim);}
+
+  .hero{padding:64px 6vw 40px;}
+  .badge{
+    display:inline-block; background:var(--green); color:var(--bg);
+    font-weight:800; font-size:13px; letter-spacing:.06em; text-transform:uppercase;
+    padding:8px 18px; border-radius:999px; margin-bottom:22px;
+  }
+  .hero h1{font-size:clamp(30px,4.5vw,48px); font-weight:900; letter-spacing:-0.02em; max-width:20ch; margin:0 0 16px;}
+  .hero p{font-size:17px; color:var(--ink-dim); max-width:60ch; margin:0;}
+
+  section{padding:0 6vw 80px;}
+  .section-head{margin-bottom:28px;}
+  .section-head .kicker{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--green); font-weight:800; margin-bottom:8px;}
+  .section-head h2{font-size:26px; font-weight:900; margin:0 0 6px; letter-spacing:-0.01em;}
+  .section-head p{color:var(--ink-dim); margin:0; max-width:64ch;}
+
+  /* ---------- toggle comparison ---------- */
+  .toggle-bar{display:inline-flex; background:var(--bg-soft); border:1px solid var(--line); border-radius:999px; padding:4px; margin-bottom:28px;}
+  .toggle-bar button{
+    border:none; background:transparent; color:var(--ink-dim); font-family:inherit; font-weight:800; font-size:14px;
+    padding:10px 22px; border-radius:999px; cursor:pointer; transition:.2s;
+  }
+  .toggle-bar button.active{background:var(--green); color:var(--bg);}
+
+  .compare-grid{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:16px; overflow:hidden;}
+  .compare-row{display:grid; grid-template-columns:180px 1fr; background:var(--bg);}
+  .compare-row .label{padding:18px 20px; background:var(--bg-soft); font-weight:800; font-size:13.5px; color:var(--ink-dim); display:flex; align-items:center;}
+  .compare-row .value{padding:18px 22px; font-size:15px; transition:.25s;}
+  .compare-row .value.dim{color:var(--ink-dim);}
+  .compare-row .value.hl{color:var(--green); font-weight:700;}
+
+  /* ---------- GROW wizard ---------- */
+  .grow-progress{display:flex; gap:8px; margin-bottom:32px;}
+  .grow-progress .seg{flex:1; height:6px; border-radius:4px; background:var(--line); position:relative; overflow:hidden;}
+  .grow-progress .seg .fill{position:absolute; inset:0; background:var(--green); transform:scaleX(0); transform-origin:left; transition:.3s;}
+  .grow-progress .seg.done .fill{transform:scaleX(1);}
+  .grow-letters{display:flex; gap:8px; margin-bottom:6px;}
+  .grow-letters span{flex:1; text-align:center; font-weight:900; font-size:12px; color:var(--ink-dim); letter-spacing:.1em;}
+  .grow-letters span.current{color:var(--green);}
+
+  .grow-card{
+    background:var(--bg-soft); border:1px solid var(--line); border-radius:20px; padding:34px;
+  }
+  .grow-card .step-tag{font-size:13px; font-weight:800; color:var(--green); text-transform:uppercase; letter-spacing:.06em; margin-bottom:10px;}
+  .grow-card h3{font-size:22px; font-weight:900; margin:0 0 12px;}
+  .grow-card .hint{color:var(--ink-dim); font-size:14.5px; margin-bottom:20px;}
+  .grow-card .hint b{color:var(--ink);}
+  .grow-card textarea{
+    width:100%; min-height:110px; background:var(--bg); border:1px solid var(--line); border-radius:12px;
+    color:var(--ink); font-family:inherit; font-size:15px; padding:16px; resize:vertical;
+  }
+  .grow-card textarea:focus{outline:none; border-color:var(--green);}
+  .grow-nav{display:flex; justify-content:space-between; margin-top:24px;}
+  .btn{
+    border:none; border-radius:999px; padding:12px 24px; font-weight:800; font-size:14px; cursor:pointer; font-family:inherit;
+  }
+  .btn-primary{background:var(--green); color:var(--bg);}
+  .btn-ghost{background:transparent; color:var(--ink-dim); border:1px solid var(--line);}
+  .btn:disabled{opacity:.35; cursor:not-allowed;}
+
+  /* ---------- scenario ---------- */
+  .scenario-card{background:var(--bg-soft); border:1px solid var(--line); border-radius:20px; padding:34px;}
+  .scenario-situation{font-size:17px; font-weight:700; margin-bottom:24px; padding-left:18px; border-left:3px solid var(--blue);}
+  .scenario-options{display:grid; gap:12px;}
+  .scenario-options button{
+    text-align:left; background:var(--bg); border:1px solid var(--line); border-radius:14px; padding:16px 18px;
+    color:var(--ink); font-family:inherit; font-size:14.5px; cursor:pointer; transition:.2s;
+  }
+  .scenario-options button:hover{border-color:var(--blue);}
+  .scenario-options button.chosen-good{border-color:var(--green); background:rgba(0,206,132,0.08);}
+  .scenario-options button.chosen-bad{border-color:var(--orange); background:rgba(251,121,27,0.08);}
+  .scenario-feedback{margin-top:22px; padding:20px 22px; border-radius:14px; font-size:14.5px; display:none;}
+  .scenario-feedback.show{display:block;}
+  .scenario-feedback.good{background:var(--green-plashka); color:var(--text-on-light);}
+  .scenario-feedback.bad{background:#2A1500; color:#FFD9B0; border:1px solid var(--orange);}
+  .try-again{margin-top:14px; display:none;}
+  .try-again.show{display:inline-block;}
+
+  /* ---------- checklist ---------- */
+  .checklist-card{background:var(--bg-soft); border:1px solid var(--line); border-radius:20px; padding:34px;}
+  .check-item{margin-bottom:26px;}
+  .check-item label{display:block; font-weight:700; font-size:15px; margin-bottom:10px;}
+  .check-item input[type=range]{width:100%; accent-color:var(--green);}
+  .check-item .scale-labels{display:flex; justify-content:space-between; font-size:12px; color:var(--ink-dim); margin-top:4px;}
+  .check-item .value-tag{display:inline-block; margin-top:8px; font-size:13px; font-weight:800; color:var(--green);}
+
+  .result-box{margin-top:10px; display:none;}
+  .result-box.show{display:block;}
+  .bars{display:grid; gap:10px; margin:22px 0;}
+  .bar-row{display:grid; grid-template-columns:220px 1fr 40px; align-items:center; gap:12px; font-size:13px; color:var(--ink-dim);}
+  .bar-track{height:10px; background:var(--bg); border-radius:6px; overflow:hidden;}
+  .bar-fill{height:100%; background:linear-gradient(90deg,var(--violet),var(--green)); width:0%; transition:.4s;}
+  .result-msg{background:var(--bg); border:1px solid var(--green); border-radius:14px; padding:20px 22px; font-size:15px; margin-top:10px;}
+
+  footer{
+    padding:26px 6vw 40px; border-top:1px solid var(--line); color:var(--ink-dim); font-size:13px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">upstars<span class="dot"></span></div>
+    <div class="crumbs">Management course 1 level</div>
+  </header>
+
+  <div class="hero">
+    <span class="badge">Інтерактивний урок</span>
+    <h1>Готовність до змін: перший крок до керівництва</h1>
+    <p>Перш ніж погоджуватись на роль керівника, варто чесно відповісти собі на кілька питань. Пройди цей урок як практику — з реальними роздумами, а не просто читанням тексту.</p>
+  </div>
+
+  <!-- SECTION 1: TOGGLE COMPARISON -->
+  <section>
+    <div class="section-head">
+      <div class="kicker">01 · Розігрів</div>
+      <h2>Спеціаліст і керівник — різна логіка успіху</h2>
+      <p>Перше, з чим варто розібратись: перехід у менеджмент — це зміна фокусу, а не просто нова назва посади.</p>
+    </div>
+
+    <div class="toggle-bar">
+      <button class="active" onclick="setRole('specialist', this)">Спеціаліст</button>
+      <button onclick="setRole('manager', this)">Керівник</button>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-row">
+        <div class="label">Фокус роботи</div>
+        <div class="value" id="row-focus">Власні задачі та експертиза</div>
+      </div>
+      <div class="compare-row">
+        <div class="label">Успіх — це</div>
+        <div class="value" id="row-success">Якість власної роботи</div>
+      </div>
+      <div class="compare-row">
+        <div class="label">Час іде на</div>
+        <div class="value" id="row-time">Виконання задач</div>
+      </div>
+      <div class="compare-row">
+        <div class="label">Відповідальність</div>
+        <div class="value" id="row-resp">За свої дії та результат</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: GROW WIZARD -->
+  <section>
+    <div class="section-head">
+      <div class="kicker">02 · Інструмент</div>
+      <h2>Модель GROW: 4 питання собі</h2>
+      <p>Занотуй чесні відповіді — це не оцінюється і нікуди не надсилається, це лише для тебе.</p>
+    </div>
+
+    <div class="grow-letters">
+      <span id="letter-0" class="current">G</span>
+      <span id="letter-1">R</span>
+      <span id="letter-2">O</span>
+      <span id="letter-3">W</span>
+    </div>
+    <div class="grow-progress">
+      <div class="seg" id="seg-0"><div class="fill"></div></div>
+      <div class="seg" id="seg-1"><div class="fill"></div></div>
+      <div class="seg" id="seg-2"><div class="fill"></div></div>
+      <div class="seg" id="seg-3"><div class="fill"></div></div>
+    </div>
+
+    <div class="grow-card">
+      <div class="step-tag" id="grow-tag">Goal — Мета</div>
+      <h3 id="grow-question">Що я хочу досягти як керівник?</h3>
+      <p class="hint" id="grow-hint"><b>Підказки:</b> кар'єрне зростання, більший вплив, бажання розвинути сильну команду.</p>
+      <textarea id="grow-input-0" placeholder="Наприклад: я хочу..."></textarea>
+      <textarea id="grow-input-1" style="display:none" placeholder="Наприклад: у мене вже є досвід..."></textarea>
+      <textarea id="grow-input-2" style="display:none" placeholder="Наприклад: мені доведеться..."></textarea>
+      <textarea id="grow-input-3" style="display:none" placeholder="Наприклад: я можу почати з..."></textarea>
+      <div class="grow-nav">
+        <button class="btn btn-ghost" id="grow-back" onclick="growNav(-1)" disabled>← Назад</button>
+        <button class="btn btn-primary" id="grow-next" onclick="growNav(1)">Далі →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: SCENARIO -->
+  <section>
+    <div class="section-head">
+      <div class="kicker">03 · Практика</div>
+      <h2>Як би ти вчинив?</h2>
+      <p>Одна з реальних ситуацій, з якою стикається новий керівник.</p>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-situation">Один з розробників у твоїй команді регулярно зриває дедлайни. Що робиш?</div>
+      <div class="scenario-options">
+        <button onclick="pickScenario(this,'bad')">Вказати на помилку і попередити про наслідки</button>
+        <button onclick="pickScenario(this,'good')">Поговорити один на один, з'ясувати причину — можливо, перевантаження чи брак навичок</button>
+        <button onclick="pickScenario(this,'bad')">Почекати — можливо, ситуація вирішиться сама</button>
+      </div>
+      <div class="scenario-feedback good" id="fb-good">
+        <b>Так, це працює.</b> Замість пошуку винних — розібратись у причині. Можливо, людині бракує навичок і потрібне навчання, або вона перевантажена і потрібно перерозподілити задачі. Це і є перехід від "виконавця" до керівника, який створює умови для команди.
+      </div>
+      <div class="scenario-feedback bad" id="fb-bad">
+        <b>Це природна реакція, але не найкраща.</b> Вказівка на помилку чи очікування без дій не усуває причину — ситуація, ймовірно, повториться. Спробуй варіант, який починається з розмови й пошуку причини.
+      </div>
+      <button class="btn btn-ghost try-again" id="try-again" onclick="resetScenario()">Спробувати ще раз</button>
+    </div>
+  </section>
+
+  <!-- SECTION 4: CHECKLIST -->
+  <section>
+    <div class="section-head">
+      <div class="kicker">04 · Підсумок</div>
+      <h2>Твій особистий чек-лист готовності</h2>
+      <p>Постав чесну оцінку від 1 до 5 по кожному пункту. Правильних відповідей тут немає.</p>
+    </div>
+
+    <div class="checklist-card">
+      <div class="check-item">
+        <label>Чи готовий я змінити фокус роботи — з власних задач на результат команди?</label>
+        <input type="range" min="1" max="5" value="3" oninput="updateScale(this,0)">
+        <div class="scale-labels"><span>Зовсім не готовий</span><span>Повністю готовий</span></div>
+      </div>
+      <div class="check-item">
+        <label>Чи готовий я працювати з людьми, а не лише з задачами?</label>
+        <input type="range" min="1" max="5" value="3" oninput="updateScale(this,1)">
+        <div class="scale-labels"><span>Зовсім не готовий</span><span>Повністю готовий</span></div>
+      </div>
+      <div class="check-item">
+        <label>Чи розумію я бізнес-контекст своєї команди й компанії?</label>
+        <input type="range" min="1" max="5" value="3" oninput="updateScale(this,2)">
+        <div class="scale-labels"><span>Зовсім не розумію</span><span>Розумію добре</span></div>
+      </div>
+      <div class="check-item">
+        <label>Чи готовий я нести відповідальність за помилки команди?</label>
+        <input type="range" min="1" max="5" value="3" oninput="updateScale(this,3)">
+        <div class="scale-labels"><span>Зовсім не готовий</span><span>Повністю готовий</span></div>
+      </div>
+      <div class="check-item">
+        <label>Чи готовий я постійно навчатись — і технічно, і в роботі з людьми?</label>
+        <input type="range" min="1" max="5" value="3" oninput="updateScale(this,4)">
+        <div class="scale-labels"><span>Зовсім не готовий</span><span>Повністю готовий</span></div>
+      </div>
+
+      <button class="btn btn-primary" onclick="showResult()">Порахувати результат</button>
+
+      <div class="result-box" id="result-box">
+        <div class="bars" id="bars"></div>
+        <div class="result-msg" id="result-msg"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>UPSTARS · Management course 1 level</span>
+  </footer>
+
+<script>
+  // ---------- SECTION 1: toggle ----------
+  const roleData = {
+    specialist: {
+      focus:"Власні задачі та експертиза",
+      success:"Якість власної роботи",
+      time:"Виконання задач",
+      resp:"За свої дії та результат"
+    },
+    manager: {
+      focus:"Напрямок і результат команди",
+      success:"Результат роботи команди",
+      time:"Планування, комунікацію, розвиток людей",
+      resp:"За дії та результат всієї команди"
+    }
+  };
+  function setRole(role, btn){
+    document.querySelectorAll('.toggle-bar button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const d = roleData[role];
+    document.getElementById('row-focus').textContent = d.focus;
+    document.getElementById('row-success').textContent = d.success;
+    document.getElementById('row-time').textContent = d.time;
+    document.getElementById('row-resp').textContent = d.resp;
+    const hl = role === 'manager';
+    ['row-focus','row-success','row-time','row-resp'].forEach(id=>{
+      document.getElementById(id).classList.toggle('hl', hl);
+      document.getElementById(id).classList.toggle('dim', !hl);
+    });
+  }
+
+  // ---------- SECTION 2: GROW wizard ----------
+  const growSteps = [
+    { tag:"Goal — Мета", q:"Що я хочу досягти як керівник?", hint:"<b>Підказки:</b> кар'єрне зростання, більший вплив, бажання розвинути сильну команду." },
+    { tag:"Reality — Реальність", q:"Що я маю зараз?", hint:"<b>Підказки:</b> навички комунікації, тайм-менеджменту, досвід неформального лідерства." },
+    { tag:"Options — Зміни", q:"Що зміниться в моїй ролі?", hint:"<b>Підказки:</b> делегування завдань, довіра команді, менше персональних технічних задач." },
+    { tag:"Will — План дій", q:"Що я можу зробити вже зараз, щоб підготуватись?", hint:"<b>Підказки:</b> навчання, менторство, неформальне лідерство на поточній позиції." }
+  ];
+  let growStep = 0;
+  function renderGrow(){
+    const s = growSteps[growStep];
+    document.getElementById('grow-tag').textContent = s.tag;
+    document.getElementById('grow-question').textContent = s.q;
+    document.getElementById('grow-hint').innerHTML = s.hint;
+    for(let i=0;i<4;i++){
+      document.getElementById('grow-input-'+i).style.display = (i===growStep) ? 'block' : 'none';
+      document.getElementById('letter-'+i).classList.toggle('current', i===growStep);
+      document.getElementById('seg-'+i).classList.toggle('done', i<=growStep ? true : false);
+      document.getElementById('seg-'+i).querySelector('.fill').style.transform = (i<=growStep) ? 'scaleX(1)' : 'scaleX(0)';
+    }
+    document.getElementById('grow-back').disabled = (growStep===0);
+    document.getElementById('grow-next').textContent = (growStep===3) ? 'Готово ✓' : 'Далі →';
+  }
+  function growNav(dir){
+    if(growStep===3 && dir===1){
+      document.getElementById('grow-next').textContent = 'Записано ✓';
+      document.getElementById('grow-next').disabled = true;
+      return;
+    }
+    growStep = Math.min(3, Math.max(0, growStep+dir));
+    renderGrow();
+  }
+  renderGrow();
+
+  // ---------- SECTION 3: scenario ----------
+  function pickScenario(btn, type){
+    document.querySelectorAll('.scenario-options button').forEach(b=>{
+      b.disabled = true;
+      b.classList.remove('chosen-good','chosen-bad');
+    });
+    btn.classList.add(type === 'good' ? 'chosen-good' : 'chosen-bad');
+    document.getElementById('fb-good').classList.toggle('show', type==='good');
+    document.getElementById('fb-bad').classList.toggle('show', type==='bad');
+    document.getElementById('try-again').classList.add('show');
+  }
+  function resetScenario(){
+    document.querySelectorAll('.scenario-options button').forEach(b=>{
+      b.disabled = false;
+      b.classList.remove('chosen-good','chosen-bad');
+    });
+    document.getElementById('fb-good').classList.remove('show');
+    document.getElementById('fb-bad').classList.remove('show');
+    document.getElementById('try-again').classList.remove('show');
+  }
+
+  // ---------- SECTION 4: checklist ----------
+  const scores = [3,3,3,3,3];
+  const scaleWords = {1:"Зовсім не готовий",2:"Скоріше ні",3:"Частково",4:"Скоріше так",5:"Повністю готовий"};
+  function updateScale(input, idx){
+    scores[idx] = parseInt(input.value);
+  }
+  const checkLabels = [
+    "Зміна фокуса роботи",
+    "Робота з людьми",
+    "Розуміння бізнес-контексту",
+    "Відповідальність за команду",
+    "Готовність навчатись"
+  ];
+  function showResult(){
+    const box = document.getElementById('bars');
+    box.innerHTML = '';
+    scores.forEach((s,i)=>{
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+      row.innerHTML = `<div>${checkLabels[i]}</div><div class="bar-track"><div class="bar-fill" style="width:${s*20}%"></div></div><div>${s}/5</div>`;
+      box.appendChild(row);
+    });
+    const avg = scores.reduce((a,b)=>a+b,0)/scores.length;
+    let msg = "";
+    if(avg < 2.5){
+      msg = "Поки що більше питань, ніж відповідей — і це нормально. Варто визначити конкретно, яких навичок чи впевненості бракує найбільше, і почати з малого: неформальне лідерство на поточній позиції чи менторство.";
+    } else if(avg < 4){
+      msg = "Непогана база. Є конкретні зони росту — модель GROW вище може допомогти скласти план, з чого почати.";
+    } else if(avg < 4.5){
+      msg = "Висока особиста готовність. Наступний крок — перевірити ці відчуття в реальних задачах, наприклад узявши відповідальність за невеликий проєкт чи ініціативу.";
+    } else {
+      msg = "Ти готовий бути керівником. Високі оцінки за всіма ключовими пунктами — ознака того, що це вже не питання готовності, а питання моменту. Далі справа за практикою.";
+    }
+    document.getElementById('result-msg').textContent = msg;
+    document.getElementById('result-box').classList.add('show');
+  }
+</script>
+
+</body>
+</html>

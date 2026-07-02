@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Management course 1 level — Старт курсу</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;1,6..12,700&display=swap');
+
+  :root{
+    --bg:#01001F;
+    --bg-soft:#0A0930;
+    --ink:#F4F3FF;
+    --ink-dim:#9C9BC4;
+    --green:#00CE84;
+    --green-plashka:#DBFFF2;
+    --violet:#5535BE;
+    --violet-plashka:#CEFFEC;
+    --blue:#448FFF;
+    --blue-plashka:#DBFDFF;
+    --orange:#FB791B;
+    --text-on-light:#161616;
+    --line:rgba(244,243,255,0.12);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Nunito Sans", sans-serif;
+    line-height:1.55;
+  }
+
+  /* ---------- decorative ribbon (signature element) ---------- */
+  .ribbon-wrap{position:absolute; overflow:hidden; pointer-events:none;}
+  .ribbon{
+    font-weight:800; letter-spacing:0.08em; font-size:13px; color:var(--bg);
+    background:var(--green-plashka);
+    padding:10px 0;
+    white-space:nowrap;
+  }
+  .ribbon span{padding:0 18px; position:relative;}
+  .ribbon span::after{content:"•"; position:absolute; right:0; opacity:.5;}
+
+  /* ---------- header ---------- */
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:28px 6vw;
+    border-bottom:1px solid var(--line);
+  }
+  .logo{
+    font-weight:900; font-size:22px; letter-spacing:-0.02em; color:var(--ink);
+    display:flex; align-items:center; gap:6px; text-transform:lowercase;
+  }
+  .logo .dot{width:7px;height:7px;border-radius:50%;background:var(--green); display:inline-block; transform:translateY(-8px);}
+  .crumbs{font-size:14px; color:var(--ink-dim);}
+  .crumbs b{color:var(--ink); font-weight:700;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:72px 6vw 56px;
+    overflow:hidden;
+  }
+  .badge{
+    display:inline-block;
+    background:var(--green);
+    color:var(--bg);
+    font-weight:800;
+    font-size:13px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:8px 18px;
+    border-radius:999px;
+    margin-bottom:24px;
+  }
+  .hero h1{
+    font-size:clamp(34px, 5vw, 58px);
+    font-weight:900;
+    letter-spacing:-0.02em;
+    max-width:16ch;
+    margin:0 0 20px;
+  }
+  .hero p.lead{
+    font-size:18px; color:var(--ink-dim); max-width:56ch; margin:0 0 8px;
+  }
+  .hero .who{
+    margin-top:28px; display:flex; align-items:center; gap:14px;
+  }
+  .avatar{
+    width:44px;height:44px;border-radius:50%;
+    background:linear-gradient(135deg,var(--violet),var(--blue));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800; font-size:15px;
+  }
+  .who .name{font-weight:800; font-size:15px;}
+  .who .role{font-size:13px; color:var(--ink-dim);}
+
+  .stamp{
+    position:absolute; right:6vw; top:60px;
+    width:132px; height:132px;
+    display:none;
+  }
+  @media(min-width:900px){ .stamp{display:block;} }
+
+  /* ---------- roadmap ---------- */
+  .roadmap{
+    padding:0 6vw 64px;
+  }
+  .roadmap h2{
+    font-size:14px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--ink-dim); font-weight:800; margin-bottom:22px;
+  }
+  .roadmap-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:14px;
+  }
+  .roadmap-item{
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px 18px 20px;
+    background:var(--bg-soft);
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .roadmap-item.active{
+    border-color:var(--green);
+    background:linear-gradient(180deg, rgba(0,206,132,0.10), transparent);
+  }
+  .roadmap-item .num{
+    font-weight:900; font-size:13px; color:var(--green); margin-bottom:8px; display:block;
+  }
+  .roadmap-item.active .num{color:var(--green);}
+  .roadmap-item:not(.active) .num{color:var(--ink-dim);}
+  .roadmap-item .t{font-weight:700; font-size:15px;}
+  .roadmap-item:not(.active) .t{color:var(--ink-dim);}
+
+  /* ---------- video section ---------- */
+  .video-section{padding:0 6vw 72px;}
+  .video-frame{
+    position:relative;
+    border-radius:20px;
+    overflow:hidden;
+    background:#000;
+    aspect-ratio:16/9;
+    border:1px solid var(--line);
+  }
+  .video-frame iframe{
+    width:100%; height:100%; border:0; display:block;
+  }
+  .video-caption{
+    margin-top:14px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+    font-size:14px; color:var(--ink-dim);
+  }
+
+  /* ---------- key ideas (color-pair cards) ---------- */
+  .ideas{padding:0 6vw 72px;}
+  .ideas h2{font-size:28px; font-weight:900; margin-bottom:8px; letter-spacing:-0.01em;}
+  .ideas .sub{color:var(--ink-dim); margin-bottom:34px; max-width:60ch;}
+  .idea-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px;
+  }
+  .idea-card{
+    border-radius:18px;
+    padding:26px 24px;
+    color:var(--text-on-light);
+    min-height:190px;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .idea-card .icon{font-size:26px; margin-bottom:18px;}
+  .idea-card h3{margin:0 0 10px; font-size:19px; font-weight:800;}
+  .idea-card p{margin:0; font-size:14.5px; opacity:.85;}
+  .idea-card.c-green{background:var(--green-plashka); border:1px solid var(--green);}
+  .idea-card.c-blue{background:var(--blue-plashka); border:1px solid var(--blue);}
+  .idea-card.c-violet{background:var(--violet-plashka); border:1px solid var(--violet);}
+  .idea-card.c-green .icon,.idea-card.c-blue .icon{color:var(--green);}
+  .idea-card.c-violet .icon{color:var(--violet);}
+
+  /* ---------- takeaway strip ---------- */
+  .takeaway{
+    margin:0 6vw 72px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:36px 34px;
+    background:var(--bg-soft);
+    display:grid; grid-template-columns:1fr;
+    gap:18px;
+  }
+  @media(min-width:800px){ .takeaway{grid-template-columns:1fr 1fr;} }
+  .takeaway blockquote{
+    margin:0; font-size:22px; font-weight:700; line-height:1.4;
+    border-left:3px solid var(--green); padding-left:20px;
+  }
+  .takeaway .meta{color:var(--ink-dim); font-size:14px; margin-top:12px;}
+  .takeaway ul{margin:0; padding-left:20px; color:var(--ink-dim); font-size:14.5px;}
+  .takeaway li{margin-bottom:10px;}
+  .takeaway li b{color:var(--ink);}
+
+  /* ---------- next step CTA ---------- */
+  .next{
+    margin:0 6vw 90px;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px;
+    background:linear-gradient(120deg, var(--violet), var(--blue));
+    border-radius:22px;
+    padding:34px 36px;
+  }
+  .next .label{font-size:13px; text-transform:uppercase; letter-spacing:.08em; opacity:.8; margin-bottom:6px;}
+  .next h3{margin:0; font-size:24px; font-weight:900;}
+  .next a{
+    background:var(--ink);
+    color:var(--bg);
+    text-decoration:none;
+    font-weight:800;
+    padding:14px 26px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+
+  footer{
+    padding:26px 6vw 40px;
+    border-top:1px solid var(--line);
+    color:var(--ink-dim);
+    font-size:13px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+
+  ::selection{background:var(--green); color:var(--bg);}
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">upstars<span class="dot"></span></div>
+    <div class="crumbs">Management course 1 level</div>
+  </header>
+
+  <section class="hero">
+    <span class="badge">Ключові ідеї</span>
+    <h1>Роль керівника: задачі, цілі та реальна відповідальність</h1>
+  </section>
+
+  <section class="ideas">
+    <h2>Три головні думки курсу</h2>
+    <p class="sub">Три меседжі, навколо яких будується розуміння ролі керівника.</p>
+    <div class="idea-grid">
+      <div class="idea-card c-green">
+        <div class="icon">◆</div>
+        <h3>Керівник — не звання, а функція</h3>
+        <p>Він об'єднує хаос і порядок: задає напрямок, створює умови для розвитку команди і доводить справи до результату.</p>
+      </div>
+      <div class="idea-card c-blue">
+        <div class="icon">◆</div>
+        <h3>Роль часто ідеалізують</h3>
+        <p>Замість «крутого кабінету та стратегічних рішень» — щоденні виклики, помилки й постійна адаптація на ходу.</p>
+      </div>
+      <div class="idea-card c-violet">
+        <div class="icon">◆</div>
+        <h3>Це шлях, а не статус</h3>
+        <p>Керівник — не супергерой, а людина, яка постійно навчається. Усвідомлення цього — перший крок до кар'єри.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="takeaway">
+    <div>
+      <blockquote>«Керівник — це той, хто не просто вирішує задачі, а задає напрямок і знаходить спосіб привести команду до результату.»</blockquote>
+      <div class="meta">Management 1.0</div>
+    </div>
+    <div>
+      <ul>
+        <li><b>Кар'єрні траєкторії</b> — залишатися експертом, стати координатором чи взяти на себе роль лідера.</li>
+        <li><b>Цикл менеджменту</b> — чому послідовність кроків допомагає доводити справи до кінця.</li>
+        <li><b>Компетенції керівника</b> — не лише постановка задач, а й підтримка та розвиток команди.</li>
+        <li><b>Типові помилки новачків</b> — і як їх уникнути ще до того, як вони стануться.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="next">
+    <div>
+      <div class="label">Наступний урок</div>
+      <h3>Олександра Альхімович розкаже про кар'єрні стратегії розвитку в IT</h3>
+    </div>
+  </div>
+
+  <footer>
+    <span>UPSTARS · Management course 1 level</span>
+  </footer>
+
+</body>
+</html>
